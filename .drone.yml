@@ -1,18 +1,5 @@
-clone:
-  tags: true
-  path: github.com/devopsbrett/govmomi
-
- pipeline:
-   backend:
-     image: golang:1.8
-     commands:
-       - make all install
-       - go build
-       - go test
- 
-  frontend:
-    image: node:6
-      commands:
-        - npm install
-        - npm test
-  
+pipeline:
+  backend:
+    image: golang:1.8
+    commands:
+      make all install
