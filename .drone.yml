@@ -1,17 +1,18 @@
 clone:
   tags: true
   path: github.com/devopsbrett/govmomi
-build:
-  image: golang:1.8
-  pull: true
-  environment:
-    - GOVC_TEST_URL=$$GOVC_TEST_URL
-    - GOVC_INSECURE=1
-    - VCA=1
-  commands:
-    - make all install
-    - git clone https://github.com/sstephenson/bats.git /tmp/bats
-    - /tmp/bats/install.sh /usr/local
-    - apt-get -qq update && apt-get install -yqq uuid-runtime bsdmainutils jq
-    - govc/test/images/update.sh
-    - bats govc/test
+
+ pipeline:
+   backend:
+     image: golang:1.8
+     commands:
+       - make all install
+       - go build
+       - go test
+ 
+  frontend:
+    image: node:6
+      commands:
+        - npm install
+        - npm test
+  
